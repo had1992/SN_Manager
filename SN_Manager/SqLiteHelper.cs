@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
+using System.Data;
 
 namespace SN_Manager
 {
@@ -12,6 +13,7 @@ namespace SN_Manager
     /// </summary>
     class SqLiteHelper
     {
+        private string dbName;
 
         /// <summary>
         /// 数据库连接定义
@@ -32,11 +34,12 @@ namespace SN_Manager
         /// 构造函数
         /// </summary>
         /// <param name="connectionString">连接SQLite库字符串</param>
-        public SqLiteHelper(string connectionString)
+        public SqLiteHelper(string DBNAME)
         {
+            dbName = DBNAME;
             try
             {
-                dbConnection = new SQLiteConnection(connectionString);
+                dbConnection = new SQLiteConnection("Data Source=" + dbName);
                 dbConnection.Open();
             }
             catch (Exception e)
@@ -49,20 +52,45 @@ namespace SN_Manager
         /// </summary>
         /// <returns>The query.</returns>
         /// <param name="queryString">SQL命令字符串</param>
-        public SQLiteDataReader ExecuteQuery(string queryString)
+        public DataTable ExecuteQuery(string queryString)
         {
+            DataTable data = new DataTable();
             try
             {
-                dbCommand = dbConnection.CreateCommand();
-                dbCommand.CommandText = queryString;
-                dataReader = dbCommand.ExecuteReader();
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbName))
+                {
+                    using (SQLiteCommand cmd = new SQLiteCommand(queryString, conn))
+                    {
+                        cmd.Connection.Open();
+                        SQLiteDataReader dataReader = cmd.ExecuteReader();
+                        data.Load(dataReader,LoadOption.OverwriteChanges);
+                    }
+                }
             }
             catch (Exception e)
             {
                 Log(e.Message);
             }
 
-            return dataReader;
+            return data;
+        }
+        public void ExecuteNonQuery(string queryString)
+        {
+            try
+            {
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=" + dbName))
+                {
+                    using (SQLiteCommand cmd = new SQLiteCommand(queryString, conn))
+                    {
+                        cmd.Connection.Open();
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log(e.Message);
+            }
         }
         /// <summary>
         /// 关闭数据库连接
@@ -95,7 +123,7 @@ namespace SN_Manager
         /// </summary>
         /// <returns>The full table.</returns>
         /// <param name="tableName">数据表名称</param>
-        public SQLiteDataReader ReadFullTable(string tableName)
+        public DataTable ReadFullTable(string tableName)
         {
             string queryString = "SELECT * FROM " + tableName;
             return ExecuteQuery(queryString);
@@ -108,23 +136,37 @@ namespace SN_Manager
         /// <returns>The values.</returns>
         /// <param name="tableName">数据表名称</param>
         /// <param name="values">插入的数值</param>
-        public SQLiteDataReader InsertValues(string tableName, string[] values)
+        public void InsertValues(string tableName, string[] values)
         {
             //获取数据表中字段数目
-            int fieldCount = ReadFullTable(tableName).FieldCount;
+            int fieldCount = ReadFullTable(tableName).Columns.Count;
             //当插入的数据长度不等于字段数目时引发异常
             if (values.Length != fieldCount)
             {
                 throw new SQLiteException("values.Length!=fieldCount");
             }
 
-            string queryString = "INSERT INTO " + tableName + " VALUES (" + "'" + values[0] + "'";
+            string queryString;
+            if (values[0] == "NULL")
+            {
+                queryString = "INSERT INTO " + tableName + " VALUES (" + values[0];
+            } else
+            {
+                queryString = "INSERT INTO " + tableName + " VALUES (" + "'" + values[0] + "'";
+            }
+             
             for (int i = 1; i < values.Length; i++)
             {
-                queryString += ", " + "'" + values[i] + "'";
+                if(values[i] == "NULL")
+                {
+                    queryString += ", " + values[i];
+                } else
+                {
+                    queryString += ", " + "'" + values[i] + "'";
+                }
             }
             queryString += " )";
-            return ExecuteQuery(queryString);
+            ExecuteNonQuery(queryString);
         }
 
         /// <summary>
@@ -137,7 +179,7 @@ namespace SN_Manager
         /// <param name="key">关键字</param>
         /// <param name="value">关键字对应的值</param>
         /// <param name="operation">运算符：=,<,>,...，默认“=”</param>
-        public SQLiteDataReader UpdateValues(string tableName, string[] colNames, string[] colValues, string key, string value, string operation = "=")
+        public void UpdateValues(string tableName, string[] colNames, string[] colValues, string key, string value, string operation = "=")
         {
             //当字段名称和字段数值不对应时引发异常
             if (colNames.Length != colValues.Length)
@@ -151,7 +193,7 @@ namespace SN_Manager
                 queryString += ", " + colNames[i] + "=" + "'" + colValues[i] + "'";
             }
             queryString += " WHERE " + key + operation + "'" + value + "'";
-            return ExecuteQuery(queryString);
+            ExecuteNonQuery(queryString);
         }
 
         /// <summary>
@@ -161,7 +203,7 @@ namespace SN_Manager
         /// <param name="tableName">数据表名称</param>
         /// <param name="colNames">字段名</param>
         /// <param name="colValues">字段名对应的数据</param>
-        public SQLiteDataReader DeleteValuesOR(string tableName, string[] colNames, string[] colValues, string[] operations)
+        public void DeleteValuesOR(string tableName, string[] colNames, string[] colValues, string[] operations)
         {
             //当字段名称和字段数值不对应时引发异常
             if (colNames.Length != colValues.Length || operations.Length != colNames.Length || operations.Length != colValues.Length)
@@ -174,7 +216,7 @@ namespace SN_Manager
             {
                 queryString += "OR " + colNames[i] + operations[0] + "'" + colValues[i] + "'";
             }
-            return ExecuteQuery(queryString);
+            ExecuteNonQuery(queryString);
         }
 
         /// <summary>
@@ -184,7 +226,7 @@ namespace SN_Manager
         /// <param name="tableName">数据表名称</param>
         /// <param name="colNames">字段名</param>
         /// <param name="colValues">字段名对应的数据</param>
-        public SQLiteDataReader DeleteValuesAND(string tableName, string[] colNames, string[] colValues, string[] operations)
+        public void DeleteValuesAND(string tableName, string[] colNames, string[] colValues, string[] operations)
         {
             //当字段名称和字段数值不对应时引发异常
             if (colNames.Length != colValues.Length || operations.Length != colNames.Length || operations.Length != colValues.Length)
@@ -197,7 +239,7 @@ namespace SN_Manager
             {
                 queryString += " AND " + colNames[i] + operations[i] + "'" + colValues[i] + "'";
             }
-            return ExecuteQuery(queryString);
+            ExecuteNonQuery(queryString);
         }
 
 
@@ -208,15 +250,15 @@ namespace SN_Manager
         /// <param name="tableName">数据表名</param>
         /// <param name="colNames">字段名</param>
         /// <param name="colTypes">字段名类型</param>
-        public SQLiteDataReader CreateTable(string tableName, string[] colNames, string[] colTypes)
+        public void CreateTable(string tableName, string[] colNames, string[] colTypes)
         {
-            string queryString = "CREATE TABLE IF NOT EXISTS " + tableName + "( " + colNames[0] + " " + colTypes[0];
+            string queryString = "CREATE TABLE IF NOT EXISTS '" + tableName + "' ( " + colNames[0] + " " + colTypes[0];
             for (int i = 1; i < colNames.Length; i++)
             {
                 queryString += ", " + colNames[i] + " " + colTypes[i];
             }
             queryString += "  ) ";
-            return ExecuteQuery(queryString);
+            ExecuteNonQuery(queryString);
         }
 
         /// <summary>
@@ -228,7 +270,7 @@ namespace SN_Manager
         /// <param name="colNames">Col names.</param>
         /// <param name="operations">Operations.</param>
         /// <param name="colValues">Col values.</param>
-        public SQLiteDataReader ReadTable(string tableName, string[] items, string[] colNames, string[] operations, string[] colValues)
+        public DataTable ReadTable(string tableName, string[] items, string[] colNames, string[] operations, string[] colValues)
         {
             string queryString = "SELECT " + items[0];
             for (int i = 1; i < items.Length; i++)

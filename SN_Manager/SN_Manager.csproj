@@ -84,11 +84,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutoSizeFormClass.cs" />
     <Compile Include="CreateOrderForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="CreateOrderForm.Designer.cs">
       <DependentUpon>CreateOrderForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ChangePassWord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChangePassWord.Designer.cs">
+      <DependentUpon>ChangePassWord.cs</DependentUpon>
+    </Compile>
+    <Compile Include="IdentifyPassWord.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IdentifyPassWord.Designer.cs">
+      <DependentUpon>IdentifyPassWord.cs</DependentUpon>
     </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
@@ -105,8 +118,20 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqLiteHelper.cs" />
+    <Compile Include="UpdateOrderInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UpdateOrderInfoForm.Designer.cs">
+      <DependentUpon>UpdateOrderInfoForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="CreateOrderForm.resx">
       <DependentUpon>CreateOrderForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChangePassWord.resx">
+      <DependentUpon>ChangePassWord.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IdentifyPassWord.resx">
+      <DependentUpon>IdentifyPassWord.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
@@ -123,6 +148,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="UpdateOrderInfoForm.resx">
+      <DependentUpon>UpdateOrderInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

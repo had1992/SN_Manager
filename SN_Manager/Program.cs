@@ -19,14 +19,19 @@ namespace SN_Manager
         [STAThread]
         static void Main()
         {
-            sql = new SqLiteHelper("data source=mydb.db");
+            sql = new SqLiteHelper("mydb.db");
 
-            SQLiteDataReader readTableName = sql.ExecuteQuery("SELECT name FROM sqlite_master WHERE name = 'orderTable' ORDER BY name");
-            if (!readTableName.Read())
-            {
-                //创建名为orderTable的数据表
-                sql.CreateTable("orderTable", new string[] { "ID", "OrderName", "OrderSize", "BelongsToOrder" }, new string[] { "INTEGER", "TEXT", "INTEGER", "TEXT" });
-            }    
+            sql.ExecuteNonQuery(
+                    @"CREATE TABLE orderTable IF NOT EXISTS ( 
+                        ID             INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE,
+                        OrderName      TEXT,
+                        OrderSize      INTEGER,
+                        CurrentSize    INTEGER DEFAULT(0),
+                        BelongsToOrder TEXT,
+                        MachineModel   TEXT    NOT NULL DEFAULT('default'),
+                        CreateTime     TEXT,
+                        Remark         TEXT
+                    );");
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
