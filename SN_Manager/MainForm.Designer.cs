@@ -39,6 +39,7 @@
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.编辑ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.关于ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.密码重置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.button3 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -48,7 +49,6 @@
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.更改ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.删除ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.密码重置ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
@@ -63,7 +63,7 @@
             this.关于ToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(1172, 42);
+            this.menuStrip2.Size = new System.Drawing.Size(1172, 40);
             this.menuStrip2.TabIndex = 1;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -77,49 +77,49 @@
             this.toolStripSeparator2,
             this.退出ToolStripMenuItem});
             this.管理ToolStripMenuItem.Name = "管理ToolStripMenuItem";
-            this.管理ToolStripMenuItem.Size = new System.Drawing.Size(75, 38);
+            this.管理ToolStripMenuItem.Size = new System.Drawing.Size(75, 36);
             this.管理ToolStripMenuItem.Text = "管理";
             // 
             // 创建订单ToolStripMenuItem
             // 
             this.创建订单ToolStripMenuItem.Name = "创建订单ToolStripMenuItem";
-            this.创建订单ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+            this.创建订单ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
             this.创建订单ToolStripMenuItem.Text = "创建订单";
             this.创建订单ToolStripMenuItem.Click += new System.EventHandler(this.创建订单ToolStripMenuItem_Click);
             // 
             // 管理订单ToolStripMenuItem
             // 
             this.管理订单ToolStripMenuItem.Name = "管理订单ToolStripMenuItem";
-            this.管理订单ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+            this.管理订单ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
             this.管理订单ToolStripMenuItem.Text = "导出订单";
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(265, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(215, 6);
             // 
             // 管理密码ToolStripMenuItem
             // 
             this.管理密码ToolStripMenuItem.Name = "管理密码ToolStripMenuItem";
-            this.管理密码ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+            this.管理密码ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
             this.管理密码ToolStripMenuItem.Text = " 管理密码";
             this.管理密码ToolStripMenuItem.Click += new System.EventHandler(this.管理密码ToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(265, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(215, 6);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
             this.退出ToolStripMenuItem.Text = "退出";
             // 
             // 编辑ToolStripMenuItem
             // 
             this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
-            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(77, 38);
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(77, 36);
             this.编辑ToolStripMenuItem.Text = "编辑";
             // 
             // 关于ToolStripMenuItem
@@ -127,8 +127,14 @@
             this.关于ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.密码重置ToolStripMenuItem});
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(75, 38);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(75, 36);
             this.关于ToolStripMenuItem.Text = "关于";
+            // 
+            // 密码重置ToolStripMenuItem
+            // 
+            this.密码重置ToolStripMenuItem.Name = "密码重置ToolStripMenuItem";
+            this.密码重置ToolStripMenuItem.Size = new System.Drawing.Size(211, 38);
+            this.密码重置ToolStripMenuItem.Text = "密码重置";
             // 
             // button3
             // 
@@ -182,7 +188,7 @@
             this.dataGridView1.AllowUserToDeleteRows = false;
             this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dataGridView1.ContextMenuStrip = this.contextMenuStrip1;
-            this.dataGridView1.Location = new System.Drawing.Point(0, 96);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 96);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.ReadOnly = true;
             this.dataGridView1.RowTemplate.Height = 33;
@@ -213,12 +219,6 @@
             this.删除ToolStripMenuItem.Size = new System.Drawing.Size(139, 36);
             this.删除ToolStripMenuItem.Text = "删除";
             this.删除ToolStripMenuItem.Click += new System.EventHandler(this.删除ToolStripMenuItem_Click);
-            // 
-            // 密码重置ToolStripMenuItem
-            // 
-            this.密码重置ToolStripMenuItem.Name = "密码重置ToolStripMenuItem";
-            this.密码重置ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
-            this.密码重置ToolStripMenuItem.Text = "密码重置";
             // 
             // MainForm
             // 

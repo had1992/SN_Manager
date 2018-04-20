@@ -50,10 +50,16 @@ namespace SN_Manager
             Program.sql.InsertValues(
                     "orderTable",
                     new string[] { "NULL", tempOrderName, orderSize,"0", orderName, machineModel, DateTime.Now.ToString(), Remark });
-            Program.sql.CreateTable(
-                tempOrderName,
-                new string[] { "RobotSN", "ChargeBaseSN", "MODEL", "WORKORDER", "DATETIME" },
-                new string[] { "TEXT", "TEXT", "TEXT", "TEXT", "TEXT" });
+
+            Program.sql.ExecuteNonQuery(
+                    "CREATE TABLE '" + tempOrderName +@"' (
+                        Id           INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE,
+                        RobotSN      TEXT    NOT NULL UNIQUE,
+                        ChargeBaseSN TEXT    NOT NULL,
+                        DATETIME     TEXT
+                    ); ");
+            string sqliteIdxName = "ROBOTSN_IDX_" + tempOrderName;
+            Program.sql.ExecuteNonQuery("CREATE UNIQUE INDEX [" + sqliteIdxName + "] ON [" + tempOrderName + "] ([ROBOTSN])");
 
             if (MessageBox.Show(this, "订单创建成功，是否打开订单输入界面？\n订单编号：" + tempOrderName + "\n订单大小：" + orderSize.ToString() + "\n机器型号：" + machineModel + "\n备注：" + Remark,
                 "Success",

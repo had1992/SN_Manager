@@ -40,10 +40,17 @@ namespace SN_Manager
                 return;
             }
 
-            int tryParseResult;
-            if (!int.TryParse(textBox2.Text, out tryParseResult))
+            int tryParseOrderSizeResult;
+            if (!int.TryParse(textBox2.Text, out tryParseOrderSizeResult))
             {
                 MessageBox.Show("输入的订单大小不是有效数值，没有改变数据！");
+                return;
+            }
+
+            int currentSize = int.Parse(orderInfo["CurrentSize"]);
+            if (currentSize > tryParseOrderSizeResult)
+            {
+                MessageBox.Show("输入的订单大小小于当前订单大小，当前订单大小为："+ orderInfo["CurrentSize"] + "，没有改变数据！");
                 return;
             }
 

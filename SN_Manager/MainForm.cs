@@ -21,7 +21,7 @@ namespace SN_Manager
 
             DataTable readAllOrder = Program.sql.ExecuteQuery("select * from orderTable order by orderName");
             refreshDataGridViewByDataTable(readAllOrder);
-            dataGridView1.DataSource = readAllOrder;
+            //dataGridView1.DataSource = readAllOrder;
 
             textBox1.KeyDown += TextBox1_KeyDown;
             this.SizeChanged += MainForm_SizeChanged;
@@ -33,10 +33,15 @@ namespace SN_Manager
 
         private void DataGridView1_DoubleClick(object sender, EventArgs e)
         {
-            int currentSelectedRowIndex = dataGridView1.CurrentRow.Index;
-            string selectedOrderName = dataGridView1.Rows[currentSelectedRowIndex].Cells["订单名称"].Value.ToString();
-            Form makeOrderForm = new MakeOrderForm(selectedOrderName);
-            makeOrderForm.ShowDialog();
+            if (dataGridView1.CurrentRow != null)
+            {
+                int currentSelectedRowIndex = dataGridView1.CurrentRow.Index;
+                string selectedOrderName = dataGridView1.Rows[currentSelectedRowIndex].Cells["订单名称"].Value.ToString();
+                Form makeOrderForm = new MakeOrderForm(selectedOrderName);
+                makeOrderForm.ShowDialog();
+                DataTable readAllOrder = Program.sql.ExecuteQuery("select * from orderTable order by orderName");
+                refreshDataGridViewByDataTable(readAllOrder);
+            }
         }
 
         private void MainForm_SizeChanged(object sender, EventArgs e)
@@ -85,7 +90,6 @@ namespace SN_Manager
 
         private void refreshDataGridViewByDataTable(DataTable dataTable)
         {
-            dataTable.Columns["Id"].ColumnName = "添加顺序";
             dataTable.Columns["OrderName"].ColumnName = "订单名称";
             dataTable.Columns["OrderSize"].ColumnName = "订单大小";
             dataTable.Columns["CurrentSize"].ColumnName = "当前订单大小";
@@ -94,6 +98,7 @@ namespace SN_Manager
             dataTable.Columns["Remark"].ColumnName = "备注";
             dataGridView1.DataSource = dataTable;
 
+            dataGridView1.Columns["Id"].Visible = false;
             dataGridView1.Columns["BelongsToOrder"].Visible = false;
         }
 
@@ -131,6 +136,7 @@ namespace SN_Manager
 
             string currentSelectedOrderName = dataGridView1.Rows[currentSelectedRowIndex].Cells["订单名称"].Value.ToString();
             string currentSelectedOrderSize = dataGridView1.Rows[currentSelectedRowIndex].Cells["订单大小"].Value.ToString();
+            string currentSelectedCurrentSize = dataGridView1.Rows[currentSelectedRowIndex].Cells["当前订单大小"].Value.ToString();
             string currentSelectedOrderBelongsToOrder = dataGridView1.Rows[currentSelectedRowIndex].Cells["BelongsToOrder"].Value.ToString();
             string currentSelectedOrderMachineModel = dataGridView1.Rows[currentSelectedRowIndex].Cells["机器型号"].Value.ToString();
             string currentSelectedOrderCreateTime = dataGridView1.Rows[currentSelectedRowIndex].Cells["创建时间"].Value.ToString();
@@ -139,6 +145,7 @@ namespace SN_Manager
             Dictionary<string, string> orderInfo = new Dictionary<string, string>();
             orderInfo["OrderName"] = currentSelectedOrderName;
             orderInfo["OrderSize"] = currentSelectedOrderSize;
+            orderInfo["CurrentSize"] = currentSelectedCurrentSize;
             orderInfo["BelongsToOrder"] = currentSelectedOrderBelongsToOrder;
             orderInfo["MachineModel"] = currentSelectedOrderMachineModel;
             orderInfo["CreateTime"] = currentSelectedOrderCreateTime;

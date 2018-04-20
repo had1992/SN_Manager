@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data.SQLite;
 using System.Data;
+using System.Windows.Forms;
 
 namespace SN_Manager
 {
@@ -37,15 +38,15 @@ namespace SN_Manager
         public SqLiteHelper(string DBNAME)
         {
             dbName = DBNAME;
-            try
-            {
-                dbConnection = new SQLiteConnection("Data Source=" + dbName);
-                dbConnection.Open();
-            }
-            catch (Exception e)
-            {
-                Log(e.ToString());
-            }
+            //try
+            //{
+            //    dbConnection = new SQLiteConnection("Data Source=" + dbName);
+            //    dbConnection.Open();
+            //}
+            //catch (Exception e)
+            //{
+            //    Log(e.ToString());
+            //}
         }
         /// <summary>
         /// 执行SQL命令
@@ -69,7 +70,7 @@ namespace SN_Manager
             }
             catch (Exception e)
             {
-                Log(e.Message);
+                Log("异常：" + e.Message + "\nsql命令：" + queryString);
             }
 
             return data;
@@ -89,7 +90,7 @@ namespace SN_Manager
             }
             catch (Exception e)
             {
-                Log(e.Message);
+                Log("异常：" + e.Message + "\nsql命令：" + queryString);
             }
         }
         /// <summary>
@@ -125,7 +126,7 @@ namespace SN_Manager
         /// <param name="tableName">数据表名称</param>
         public DataTable ReadFullTable(string tableName)
         {
-            string queryString = "SELECT * FROM " + tableName;
+            string queryString = "SELECT * FROM '" + tableName + "'";
             return ExecuteQuery(queryString);
         }
 
@@ -149,10 +150,10 @@ namespace SN_Manager
             string queryString;
             if (values[0] == "NULL")
             {
-                queryString = "INSERT INTO " + tableName + " VALUES (" + values[0];
+                queryString = "INSERT INTO '" + tableName + "' VALUES (" + values[0];
             } else
             {
-                queryString = "INSERT INTO " + tableName + " VALUES (" + "'" + values[0] + "'";
+                queryString = "INSERT INTO '" + tableName + "' VALUES (" + "'" + values[0] + "'";
             }
              
             for (int i = 1; i < values.Length; i++)
@@ -187,7 +188,7 @@ namespace SN_Manager
                 throw new SQLiteException("colNames.Length!=colValues.Length");
             }
 
-            string queryString = "UPDATE " + tableName + " SET " + colNames[0] + "=" + "'" + colValues[0] + "'";
+            string queryString = "UPDATE '" + tableName + "' SET " + colNames[0] + "=" + "'" + colValues[0] + "'";
             for (int i = 1; i < colValues.Length; i++)
             {
                 queryString += ", " + colNames[i] + "=" + "'" + colValues[i] + "'";
@@ -234,7 +235,7 @@ namespace SN_Manager
                 throw new SQLiteException("colNames.Length!=colValues.Length || operations.Length!=colNames.Length || operations.Length!=colValues.Length");
             }
 
-            string queryString = "DELETE FROM " + tableName + " WHERE " + colNames[0] + operations[0] + "'" + colValues[0] + "'";
+            string queryString = "DELETE FROM '" + tableName + "' WHERE " + colNames[0] + operations[0] + "'" + colValues[0] + "'";
             for (int i = 1; i < colValues.Length; i++)
             {
                 queryString += " AND " + colNames[i] + operations[i] + "'" + colValues[i] + "'";
@@ -291,7 +292,8 @@ namespace SN_Manager
         /// <param name="s"></param>
         static void Log(string s)
         {
-            Console.WriteLine("class SqLiteHelper:::" + s);
+            MessageBox.Show(s);
+            //Console.WriteLine("class SqLiteHelper:::" + s);
         }
     }
 }

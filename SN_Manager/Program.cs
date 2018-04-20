@@ -22,7 +22,7 @@ namespace SN_Manager
             sql = new SqLiteHelper("mydb.db");
 
             sql.ExecuteNonQuery(
-                    @"CREATE TABLE orderTable IF NOT EXISTS ( 
+                    @"CREATE TABLE IF NOT EXISTS orderTable( 
                         ID             INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE,
                         OrderName      TEXT,
                         OrderSize      INTEGER,
