@@ -52,10 +52,10 @@ namespace SN_Manager
                     new string[] { "NULL", tempOrderName, orderSize,"0", orderName, machineModel, DateTime.Now.ToString(), Remark });
 
             Program.sql.ExecuteNonQuery(
-                    "CREATE TABLE '" + tempOrderName +@"' (
+                    "CREATE TABLE '" + tempOrderName + @"' (
                         Id           INTEGER PRIMARY KEY ASC AUTOINCREMENT UNIQUE,
                         RobotSN      TEXT    NOT NULL UNIQUE,
-                        ChargeBaseSN TEXT    NOT NULL,
+                        ChargeBaseSN TEXT    NOT NULL UNIQUE,
                         DATETIME     TEXT
                     ); ");
             string sqliteIdxName = "ROBOTSN_IDX_" + tempOrderName;

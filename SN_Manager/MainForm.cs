@@ -200,5 +200,16 @@ namespace SN_Manager
             DataTable readAllOrder = Program.sql.ExecuteQuery("select * from orderTable order by orderName");
             refreshDataGridViewByDataTable(readAllOrder);
         }
+
+        private void 管理订单ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FolderBrowserDialog path = new FolderBrowserDialog();
+            if (path.ShowDialog() == DialogResult.Cancel)
+            {
+                return;
+            }
+            Form exportOrderProgressForm = new ExportOrderProgressForm(path.SelectedPath);
+            exportOrderProgressForm.ShowDialog();
+        }
     }
 }

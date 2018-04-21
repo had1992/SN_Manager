@@ -63,7 +63,7 @@
             this.关于ToolStripMenuItem});
             this.menuStrip2.Location = new System.Drawing.Point(0, 0);
             this.menuStrip2.Name = "menuStrip2";
-            this.menuStrip2.Size = new System.Drawing.Size(1172, 40);
+            this.menuStrip2.Size = new System.Drawing.Size(1172, 42);
             this.menuStrip2.TabIndex = 1;
             this.menuStrip2.Text = "menuStrip2";
             // 
@@ -77,49 +77,50 @@
             this.toolStripSeparator2,
             this.退出ToolStripMenuItem});
             this.管理ToolStripMenuItem.Name = "管理ToolStripMenuItem";
-            this.管理ToolStripMenuItem.Size = new System.Drawing.Size(75, 36);
+            this.管理ToolStripMenuItem.Size = new System.Drawing.Size(75, 38);
             this.管理ToolStripMenuItem.Text = "管理";
             // 
             // 创建订单ToolStripMenuItem
             // 
             this.创建订单ToolStripMenuItem.Name = "创建订单ToolStripMenuItem";
-            this.创建订单ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
+            this.创建订单ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
             this.创建订单ToolStripMenuItem.Text = "创建订单";
             this.创建订单ToolStripMenuItem.Click += new System.EventHandler(this.创建订单ToolStripMenuItem_Click);
             // 
             // 管理订单ToolStripMenuItem
             // 
             this.管理订单ToolStripMenuItem.Name = "管理订单ToolStripMenuItem";
-            this.管理订单ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
-            this.管理订单ToolStripMenuItem.Text = "导出订单";
+            this.管理订单ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
+            this.管理订单ToolStripMenuItem.Text = "导出所有订单";
+            this.管理订单ToolStripMenuItem.Click += new System.EventHandler(this.管理订单ToolStripMenuItem_Click);
             // 
             // toolStripSeparator1
             // 
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(215, 6);
+            this.toolStripSeparator1.Size = new System.Drawing.Size(265, 6);
             // 
             // 管理密码ToolStripMenuItem
             // 
             this.管理密码ToolStripMenuItem.Name = "管理密码ToolStripMenuItem";
-            this.管理密码ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
+            this.管理密码ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
             this.管理密码ToolStripMenuItem.Text = " 管理密码";
             this.管理密码ToolStripMenuItem.Click += new System.EventHandler(this.管理密码ToolStripMenuItem_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(215, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(265, 6);
             // 
             // 退出ToolStripMenuItem
             // 
             this.退出ToolStripMenuItem.Name = "退出ToolStripMenuItem";
-            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(218, 38);
+            this.退出ToolStripMenuItem.Size = new System.Drawing.Size(268, 38);
             this.退出ToolStripMenuItem.Text = "退出";
             // 
             // 编辑ToolStripMenuItem
             // 
             this.编辑ToolStripMenuItem.Name = "编辑ToolStripMenuItem";
-            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(77, 36);
+            this.编辑ToolStripMenuItem.Size = new System.Drawing.Size(77, 38);
             this.编辑ToolStripMenuItem.Text = "编辑";
             // 
             // 关于ToolStripMenuItem
@@ -127,7 +128,7 @@
             this.关于ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.密码重置ToolStripMenuItem});
             this.关于ToolStripMenuItem.Name = "关于ToolStripMenuItem";
-            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(75, 36);
+            this.关于ToolStripMenuItem.Size = new System.Drawing.Size(75, 38);
             this.关于ToolStripMenuItem.Text = "关于";
             // 
             // 密码重置ToolStripMenuItem
@@ -233,7 +234,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.menuStrip2);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "订单管理界面";
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.menuStrip2.ResumeLayout(false);
             this.menuStrip2.PerformLayout();

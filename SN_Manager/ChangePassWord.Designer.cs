@@ -108,7 +108,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Name = "ChangePassWord";
-            this.Text = "ChangePassWord";
+            this.Text = "更改密码";
             this.ResumeLayout(false);
             this.PerformLayout();
 

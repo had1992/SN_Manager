@@ -49,7 +49,91 @@ namespace SN_Manager
 
             this.FormClosing += MakeOrderForm_FormClosing;
 
+            this.textBox1.TextChanged += TextBox1_TextChanged;
+            this.textBox2.TextChanged += TextBox2_TextChanged;
+
             asc.controlAutoSize(this);
+        }
+
+        private void TextBox2_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox2.Text.Count() < 2)
+            {
+                label8.Visible = false;
+            }
+            if (textBox2.Text.Count() == 2)
+            {
+                for (int i = 0; i < orderContent.Rows.Count; i++)
+                {
+                    if (orderContent.Rows[i]["ChargeBaseSN"].ToString() == textBox2.Text)
+                    {
+                        label8.Text = "已存在该SN！";
+                        label8.ForeColor = Color.Red;
+                        label8.Visible = true;
+
+                        textBox2.SelectAll();
+                        return;
+                    }
+                }
+                label7.Text = "输入正确！";
+                label7.ForeColor = Color.Green;
+                label7.Visible = true;
+
+                commitOneRowToDatable();
+
+                textBox2.Enabled = false;
+                textBox2.Clear();
+
+                textBox1.Clear();
+                textBox1.Enabled = true;
+                textBox1.Focus();
+
+                label7.Visible = false;
+                label8.Visible = false;
+            }
+            if (textBox2.Text.Count() > 2)
+            {
+                label8.Text = "超出长度！";
+                label8.ForeColor = Color.Red;
+                label8.Visible = true;
+            }
+        }
+
+        private void TextBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text.Count() < 2)
+            {
+                label7.Visible = false;
+            }
+            if (textBox1.Text.Count() == 2)
+            {
+                for(int i = 0; i < orderContent.Rows.Count; i++)
+                {
+                    if(orderContent.Rows[i]["RobotSN"].ToString() == textBox1.Text)
+                    {
+                        label7.Text = "已存在该SN！";
+                        label7.ForeColor = Color.Red;
+                        label7.Visible = true;
+
+                        textBox1.SelectAll();
+                        return;
+                    }
+                }
+                label7.Text = "输入正确！";
+                label7.ForeColor = Color.Green;
+                label7.Visible = true;
+
+                textBox2.Enabled = true;
+                textBox2.Focus();
+
+                textBox1.Enabled = false;
+            }
+            if (textBox1.Text.Count() > 2)
+            {
+                label7.Text = "超出长度！";
+                label7.ForeColor = Color.Red;
+                label7.Visible = true;
+            }
         }
 
         private void MakeOrderForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -101,71 +185,23 @@ namespace SN_Manager
             asc.controllInitializeSize(this);
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void refreshDataGridViewByDataTable(DataTable dataTable)
         {
             dataGridView1.DataSource = dataTable;
             dataGridView1.Columns["Id"].Visible = false;
         }
 
-        private void button1_Click_1(object sender, EventArgs e)
+        private void button1_Click(object sender, EventArgs e)
         {
-            string RobotSN = textBox1.Text;
-            string ChargeBaseSN = textBox2.Text;
-            if(RobotSN == "" || ChargeBaseSN == "")
-            {
-                MessageBox.Show("未完成输入，无法录入！");
-                return;
-            }
-
-            for(int i = 0; i < orderContent.Rows.Count; i++)
-            {
-                if(orderContent.Rows[i]["RobotSN"].ToString() == RobotSN)
-                {
-                    orderContent.Rows[i]["ChargeBaseSN"] = ChargeBaseSN;
-                    orderContent.Rows[i]["DATETIME"] = DateTime.Now.ToString();
-                    orderContent.Rows[i]["IsChanged"] = true;
-                    
-                    textBox1.Clear();
-                    textBox2.Clear();
-
-                    hasChanged = true;
-
-                    //refreshDataGridViewByDataTable(orderContent);
-                    return;
-                }
-            }
-            if (orderContent.Rows.Count == maxOrderSize)
-            {
-                if (MessageBox.Show(
-                    this, 
-                    "订单已满，无法添加新订单,是否提交订单？", 
-                    "Warning", 
-                    MessageBoxButtons.OKCancel, 
-                    MessageBoxIcon.Warning) == DialogResult.OK)
-                {
-                    updateOrder();
-                }
-                return;
-            }
-
-            int maxId = 0;
-            if (orderContent.Rows.Count  != 0)
-            {
-                maxId = int.Parse(orderContent.Rows[orderContent.Rows.Count - 1]["Id"].ToString());
-            }
-            orderContent.Rows.Add(new object[] { maxId+1, RobotSN , ChargeBaseSN , DateTime.Now.ToString(),false,true});
-
-            textBox1.Clear();
+            textBox2.Enabled = false;
             textBox2.Clear();
 
-            hasChanged = true;
+            textBox1.Clear();
+            textBox1.Enabled = true;
+            textBox1.Focus();
 
-            //refreshDataGridViewByDataTable(orderContent);
+            label7.Visible = false;
+            label8.Visible = false;
         }
 
         private void 删除ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -258,6 +294,64 @@ namespace SN_Manager
             hasChanged = false;
 
             //refreshDataGridViewByDataTable(orderContent);
+        }
+
+        private void commitOneRowToDatable()
+        {
+            string RobotSN = textBox1.Text;
+            string ChargeBaseSN = textBox2.Text;
+            if (RobotSN == "" || ChargeBaseSN == "")
+            {
+                MessageBox.Show("未完成输入，无法录入！");
+                return;
+            }
+            if (orderContent.Rows.Count == maxOrderSize)
+            {
+                if (MessageBox.Show(
+                    this,
+                    "订单已满，无法添加新订单,是否提交订单？",
+                    "Warning",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning) == DialogResult.OK)
+                {
+                    updateOrder();
+                }
+                return;
+            }
+
+            int maxId = 0;
+            if (orderContent.Rows.Count != 0)
+            {
+                maxId = int.Parse(orderContent.Rows[orderContent.Rows.Count - 1]["Id"].ToString());
+            }
+            orderContent.Rows.Add(new object[] { maxId + 1, RobotSN, ChargeBaseSN, DateTime.Now.ToString(), false, true });
+
+            hasChanged = true;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            if (hasChanged && 
+                MessageBox.Show(
+                    this,
+                    "Warning",
+                    "当前还有订单未提交，是否提交后导出？",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                updateOrder();
+            }
+
+            FolderBrowserDialog path = new FolderBrowserDialog();
+            if(path.ShowDialog() == DialogResult.Cancel)
+            {
+                return;
+            }
+
+            ExportOrderToCsv exportTool = new ExportOrderToCsv();
+            exportTool.ExportOrderByOrderName(orderName, path.SelectedPath);
+
+            MessageBox.Show(this,"订单导出成功！","Success",MessageBoxButtons.OK,MessageBoxIcon.Information);
         }
     }
 }

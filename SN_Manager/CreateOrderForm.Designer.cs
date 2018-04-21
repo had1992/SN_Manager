@@ -136,7 +136,7 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Name = "CreateOrderForm";
-            this.Text = "CreateOrderForm";
+            this.Text = "创建订单";
             this.ResumeLayout(false);
             this.PerformLayout();
 
